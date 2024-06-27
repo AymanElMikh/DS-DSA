@@ -1,6 +1,6 @@
 package org.dsa.LinkedList;
 
-public class LinkedList<E> {
+public class LinkedList<E extends Comparable<E>>{
     private Node<E> head;
 
     public void insertAtEnd(E data) {
@@ -74,6 +74,57 @@ public class LinkedList<E> {
         if (current != null) {
             prev.next = current.next;
         }
+    }
+
+    public void reverseLinkedList() {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        Node current = head;
+        Node prev = null;
+        Node next;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        head = prev;
+    }
+
+    public void merge(LinkedList<E> linkedList){
+        if (linkedList.head == null)
+            return;
+        if(this.head == null)
+            this.head = linkedList.head;
+
+        Node<E> temp = new Node();
+        Node<E> current1 = this.head;
+        Node<E> current2  = this.head;
+        Node<E> currentResult = temp;
+
+
+        while (current2.next !=null && current2.next != null){
+
+            if (current1.data.compareTo(current2.data) <= 0) {
+                currentResult.next = current1;
+                current1 = current1.next;
+            } else {
+                currentResult.next = current2;
+                current2 = current2.next;
+            }
+            currentResult = currentResult.next;
+        }
+
+        if (current1.next == null)
+            current1.next = current2;
+
+        if ( current2.next == null )
+            current2.next = current1;
+
     }
 
     public void printAll() {
