@@ -47,6 +47,7 @@ public class StackV1<E extends Comparable<E>> implements Stack<E> {
         return array[position];
     }
 
+    @Override
     public boolean isEmpty() {
         return topIndex == -1;
     }

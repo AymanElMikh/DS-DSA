@@ -1,7 +1,13 @@
 package org.dsa.LinkedList;
 
-public class LinkedList<E extends Comparable<E>>{
+public class LinkedList<E extends Comparable<E>> {
     private Node<E> head;
+    private int size; // Variable to keep track of the size
+
+    public LinkedList() {
+        this.head = null;
+        this.size = 0; // Initialize size to 0
+    }
 
     public void insertAtEnd(E data) {
         Node<E> node = new Node<>();
@@ -16,6 +22,7 @@ public class LinkedList<E extends Comparable<E>>{
             }
             ref.next = node;
         }
+        size++; // Increment size after inserting a node
     }
 
     public void insertAtTheBeginning(E data) {
@@ -28,19 +35,22 @@ public class LinkedList<E extends Comparable<E>>{
             node.next = head;
             head = node;
         }
+        size++; // Increment size after inserting a node
     }
+
     public void insertAtPosition(E data, int position) {
-        Node newNode = new Node();
+        Node<E> newNode = new Node<>();
         newNode.data = data;
 
         if (position <= 0 || head == null) {
             newNode.next = head;
             head = newNode;
+            size++; // Increment size after inserting a node
             return;
         }
 
-        Node current = head;
-        Node prev = null;
+        Node<E> current = head;
+        Node<E> prev = null;
         int counter = 0;
 
         while (current != null && counter < position) {
@@ -51,18 +61,21 @@ public class LinkedList<E extends Comparable<E>>{
 
         prev.next = newNode;
         newNode.next = current;
+        size++; // Increment size after inserting a node
     }
+
     public void deleteAtPosition(int position) {
         if (position < 0 || head == null) {
             return;
         }
         if (position == 0) {
             this.head = this.head.next;
+            size--; // Decrement size after deleting a node
             return;
         }
 
-        Node current = head;
-        Node prev = null;
+        Node<E> current = head;
+        Node<E> prev = null;
         int counter = 0;
 
         while (current != null && counter < position) {
@@ -73,6 +86,7 @@ public class LinkedList<E extends Comparable<E>>{
 
         if (current != null) {
             prev.next = current.next;
+            size--; // Decrement size after deleting a node
         }
     }
 
@@ -81,9 +95,9 @@ public class LinkedList<E extends Comparable<E>>{
             return;
         }
 
-        Node current = head;
-        Node prev = null;
-        Node next;
+        Node<E> current = head;
+        Node<E> prev = null;
+        Node<E> next;
 
         while (current != null) {
             next = current.next;
@@ -95,42 +109,45 @@ public class LinkedList<E extends Comparable<E>>{
         head = prev;
     }
 
-        public void merge(LinkedList<E> linkedList) {
-            if (linkedList.head == null) {
-                return;
-            }
+    public void merge(LinkedList<E> linkedList) {
+        if (linkedList.head == null) {
+            return;
+        }
 
-            if (this.head == null) {
-                this.head = linkedList.head;
-                return;
-            }
+        if (this.head == null) {
+            this.head = linkedList.head;
+            size += linkedList.size(); // Update size after merging
+            return;
+        }
 
-            Node<E> result = new Node<>();
-            Node<E> currentResult = result;
-            Node<E> current1 = this.head;
-            Node<E> current2 = linkedList.head;
+        Node<E> result = new Node<>();
+        Node<E> currentResult = result;
+        Node<E> current1 = this.head;
+        Node<E> current2 = linkedList.head;
 
-            while (current1 != null && current2 != null) {
-                if (current1.data.compareTo(current2.data) <= 0) {
-                    currentResult.next = current1;
-                    current1 = current1.next;
-                } else {
-                    currentResult.next = current2;
-                    current2 = current2.next;
-                }
-                currentResult = currentResult.next;
-            }
-
-            if (current1 != null) {
+        while (current1 != null && current2 != null) {
+            if (current1.data.compareTo(current2.data) <= 0) {
                 currentResult.next = current1;
-            }
-
-            if (current2 != null) {
+                current1 = current1.next;
+            } else {
                 currentResult.next = current2;
+                current2 = current2.next;
             }
+            currentResult = currentResult.next;
+        }
 
-            this.head = result.next;
+        if (current1 != null) {
+            currentResult.next = current1;
+        }
+
+        if (current2 != null) {
+            currentResult.next = current2;
+        }
+
+        this.head = result.next;
+        size += linkedList.size(); // Update size after merging
     }
+
     public void printAll() {
         Node<E> ref = head;
 
@@ -159,7 +176,12 @@ public class LinkedList<E extends Comparable<E>>{
 
         return current;
     }
-    public boolean isEmpty(){
+
+    public boolean isEmpty() {
         return this.head == null;
+    }
+
+    public int size() {
+        return size; // Return the size variable
     }
 }

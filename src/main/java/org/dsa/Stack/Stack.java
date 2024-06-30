@@ -6,4 +6,6 @@ public interface Stack<E> {
     E top();
     E peek(int position);
 
+    boolean isEmpty();
+    int size();
 }

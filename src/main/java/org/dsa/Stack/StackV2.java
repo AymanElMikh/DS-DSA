@@ -46,8 +46,14 @@ public class StackV2<E extends Comparable<E>> implements Stack<E> {
             return node.getData();
     }
 
+    @Override
     public boolean isEmpty(){
         return linkedList.isEmpty();
+    }
+
+    @Override
+    public int size() {
+        return linkedList.size();
     }
 
 }
