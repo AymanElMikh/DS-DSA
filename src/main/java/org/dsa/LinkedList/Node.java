@@ -6,4 +6,8 @@ public class Node<E> {
     public boolean equals(Node<E> otherNode) {
         return this.data.equals(otherNode.data);
     }
+
+    public E getData(){
+        return data;
+    }
 }

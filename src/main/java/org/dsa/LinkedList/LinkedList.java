@@ -95,38 +95,42 @@ public class LinkedList<E extends Comparable<E>>{
         head = prev;
     }
 
-    public void merge(LinkedList<E> linkedList){
-        if (linkedList.head == null)
-            return;
-        if(this.head == null)
-            this.head = linkedList.head;
-
-        Node<E> temp = new Node();
-        Node<E> current1 = this.head;
-        Node<E> current2  = this.head;
-        Node<E> currentResult = temp;
-
-
-        while (current2.next !=null && current2.next != null){
-
-            if (current1.data.compareTo(current2.data) <= 0) {
-                currentResult.next = current1;
-                current1 = current1.next;
-            } else {
-                currentResult.next = current2;
-                current2 = current2.next;
+        public void merge(LinkedList<E> linkedList) {
+            if (linkedList.head == null) {
+                return;
             }
-            currentResult = currentResult.next;
-        }
 
-        if (current1.next == null)
-            current1.next = current2;
+            if (this.head == null) {
+                this.head = linkedList.head;
+                return;
+            }
 
-        if ( current2.next == null )
-            current2.next = current1;
+            Node<E> result = new Node<>();
+            Node<E> currentResult = result;
+            Node<E> current1 = this.head;
+            Node<E> current2 = linkedList.head;
 
+            while (current1 != null && current2 != null) {
+                if (current1.data.compareTo(current2.data) <= 0) {
+                    currentResult.next = current1;
+                    current1 = current1.next;
+                } else {
+                    currentResult.next = current2;
+                    current2 = current2.next;
+                }
+                currentResult = currentResult.next;
+            }
+
+            if (current1 != null) {
+                currentResult.next = current1;
+            }
+
+            if (current2 != null) {
+                currentResult.next = current2;
+            }
+
+            this.head = result.next;
     }
-
     public void printAll() {
         Node<E> ref = head;
 
@@ -138,5 +142,24 @@ public class LinkedList<E extends Comparable<E>>{
                 ref = ref.next;
             }
         }
+    }
+
+    public Node<E> find(int position) {
+        if (position < 0 || head == null) {
+            return null;
+        }
+
+        Node<E> current = head;
+        int index = 0;
+
+        while (current != null && index < position) {
+            current = current.next;
+            index++;
+        }
+
+        return current;
+    }
+    public boolean isEmpty(){
+        return this.head == null;
     }
 }
